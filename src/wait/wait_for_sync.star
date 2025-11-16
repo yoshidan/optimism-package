@@ -32,19 +32,16 @@ def wait_for_startup(plan, l1_config_env_vars):
         env_vars=l1_config_env_vars,
         run="""
             while true; do
-                sleep 5
-                echo 'L1 Chain is starting up'
-
-                SLOT=$(curl -fs $CL_RPC_URL/eth/v1/beacon/headers 2>/dev/null | jq -r '.data[0].header.message.slot // "0"')
-
+                sleep 5;
+                echo 'L1 Chain is starting up';
+                SLOT=$(curl -fs $CL_RPC_URL/eth/v1/beacon/headers 2>/dev/null | jq -r '.data[0].header.message.slot // "0"');
                 if [ "$SLOT" = "0" ]; then
-                    SLOT=$(curl -fs $CL_RPC_URL/eth/v1/beacon/headers/ 2>/dev/null | jq -r '.data[0].header.message.slot // "0"')
-                fi
-
+                    SLOT=$(curl -fs $CL_RPC_URL/eth/v1/beacon/headers/ 2>/dev/null | jq -r '.data[0].header.message.slot // "0"');
+                fi;
                 if [ "$SLOT" -gt 0 ]; then
-                    echo 'L1 Chain has started!'
-                    break
-                fi
+                    echo 'L1 Chain has started!';
+                    break;
+                fi;
             done
         """,
         wait="300s",
